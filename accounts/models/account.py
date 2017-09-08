@@ -15,6 +15,5 @@ class AccountManager(models.Manager):
 
 
 class Account(TimeStampMixin, IsEnabledMixin, NameSlugMixin):
-    name = models.CharField(max_length=200)
     
     objects = AccountManager()

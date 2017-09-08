@@ -10,12 +10,12 @@ class JournalManager(models.Manager):
         with transaction.atomic():
             journal = self.model(**kwargs)
             journal.save(force_insert=True)
-            Ledger.objects.create(ledger_type=Ledger.CASHOUT, journal=journal)
-            Ledger.objects.create(ledger_type=Ledger.PRINCIPAL, journal=journal)
+            Ledger.objects.create(name=Ledger.CASHOUT, journal=journal)
+            Ledger.objects.create(name=Ledger.PRINCIPAL, journal=journal)
         return journal
     
         
 class Journal(TimeStampMixin, IsEnabledMixin): 
-    account = models.ForeignKey(Account)
+    account = models.OneToOneField(Account, related_name='journal')
     
     objects = JournalManager()

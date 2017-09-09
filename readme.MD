@@ -1,4 +1,4 @@
-##Setup Instructions
+#Setup Instructions
 
 1. Clone the Git Repo
 2. Create a Virtual Python3 Environment

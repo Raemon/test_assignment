@@ -15,6 +15,15 @@ from .entry import Entry
 class TransactionManager(models.Manager):
     
     def create(self, **kwargs):
+        if 'journal_id' not in kwargs and 'account_id' not in kwargs:
+            raise ValueError("TransactionManager.create requires either account_id or journal_id")
+            
+        if 'journal_id' not in kwargs:
+            kwargs['journal_id'] = Account.objects.get(id=kwargs['account_id']).journal.id 
+        
+        if 'account_id' not in kwargs:
+            kwargs['account_id'] = Journal.objects.get(id=kwargs['journal_id']).account.i
+        
         with django.db.transaction.atomic():
             transaction = self.model(**kwargs)
             transaction.save(force_insert=True)

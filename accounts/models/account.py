@@ -6,7 +6,6 @@ class AccountManager(models.Manager):
     def create(self, **kwargs):
         # Avoids circular import
         from .journal import Journal
-
         with transaction.atomic():
             account = self.model(**kwargs)
             account.save(force_insert=True)

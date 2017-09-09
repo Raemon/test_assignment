@@ -1,4 +1,5 @@
-#Setup Instructions
+Setup Instructions
+------------------
 
 1. Clone the Git Repo
 2. Create a Virtual Python3 Environment
@@ -14,4 +15,17 @@ source venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
+
+Once the server is running, you can create new accounts:
+
+```
+curl -H 'Content-Type:application/json' -XPOST "http://localhost:8000/accounts" -d '{ "name":"Example Account", "slug":"example-account"}'
+```
+
+And new transactions:
+
+
+```
+curl -H 'Content-Type:application/json' -XPOST "http://localhost:8000/transactions" -d '{ "account":"example-account", "amount":200}'
 ```

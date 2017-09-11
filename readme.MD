@@ -29,3 +29,13 @@ And new transactions:
 ```
 curl -H 'Content-Type:application/json' -XPOST "http://localhost:8000/transactions" -d '{ "account":"example-account", "amount":200}'
 ```
+
+Notes on some design choices:
+
+(1). I have a default-setup I typically use for APIs, using Django and the corresponding Django-Rest-Framework. It includes some database-model mixins for a created/updated timestamp, and a name/slug identifier (with names allowing any characters, slugs disallowing special characters that'd make it harder to use in URLs and the like)
+
+I tweaked the API Serializer to use "timestamp" to show the Transaction's "created" DateTime field, so that it still matched the specifications. Accounts currently require both a name and a slug.
+
+(2) There are four modules:
+
+1. Accounts -  

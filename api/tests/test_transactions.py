@@ -73,12 +73,15 @@ class TestTransactionSerializer(TestCase):
         self.client.post("/accounts", {'name': 'Test User', 'slug':'test-user'})
         response = self.client.post("/transactions", {'amount':200})
         self.assertEqual(json.loads(response.content), {'account': ['This field is required.']})
+        self.assertEqual(json.loads(response.status_code), 500)
         
         response = self.client.post("/transactions", {'account':2, 'amount':200})
         self.assertEqual(json.loads(response.content), {'account': ['2 is not a valid account.']})
+        self.assertEqual(json.loads(response.status_code), 500)
         
         response = self.client.post("/transactions", {'account':'test-account2', 'amount':200})
         self.assertEqual(json.loads(response.content), {'account': ['test-account2 is not a valid account.']})
+        self.assertEqual(json.loads(response.status_code), 500)
         
 
         

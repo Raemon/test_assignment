@@ -36,6 +36,21 @@ Notes on some design choices:
 
 I tweaked the API Serializer to use "timestamp" to show the Transaction's "created" DateTime field, so that it still matched the specifications. Accounts currently require both a name and a slug.
 
-(2) There are four modules:
+Since I was working in Django, which is a bit opinionated, I chose to have Ledger entries stored as a separate Entry database model instead of, say, a list of numbers in the Ledger, but if I were using other frameworks may have had a different approach.
 
-1. Accounts -  
+(2) Overall architecture - there are four modules, each with accompanying unit tests.
+
+1. Accounts - Models for the Accounts, Journals, Ledgers, Transactions and Entries, as well as Manager classes that handle the initialization of new accounts and transactions.
+
+2. API - Serializers and Views using the Django-Rest-Framework for accounts and transactions
+
+3. Capitalone - the core project folder, which includes the health API endpoint and the basic settings, url routing, etc.
+
+4. Common - Mixins I use to provide the timestamp and name/slug functionality.
+
+(3) Testing Approach
+
+I made sure that each of the project requirements were covered by a test, and that the API calls specified by the assignment had enough tests that if we were to refactor the entire underlying architecture we'd be able to make sure the thing still worked.
+
+Beyond that, I try to have a modular approach, breaking tasks into small functions, testing each function for its unique logic and using mocks to make sure that it calls the sub-functions correctly. (I ran into an instance where this *didn't* work while testing the transaction serializer, due to something about how Django handles its fields. I spent 30-45 minutes trying to debug that and then decided it was more important to get the assignment in promply, although I'll be continuing to look into that)
+

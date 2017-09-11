@@ -61,27 +61,27 @@ class TestTransactionSerializer(TestCase):
 
     def test_new_transactions_can_be_posted_by_account_slug(self):
         self.client.post("/accounts", {'name': 'Test User', 'slug':'test-user'})
-        response = self.client.post("/transactions", {'account':'test-user', 'amount':200})
-        self.assertEqual(json.loads(response.content)['amount'], 200)
+        response = self.client.post("/transactions", {'account':'test-user', 'amount':100})
+        self.assertEqual(response.status_code, 201)
         
     def test_new_transactions_can_be_posted_by_account_id(self):
         self.client.post("/accounts", {'name': 'Test User', 'slug':'test-user'})
         response = self.client.post("/transactions", {'account':1, 'amount':200})
-        self.assertEqual(json.loads(response.content)['amount'], 200)
+        self.assertEqual(response.status_code, 201)
                 
     def test_post_transaction_requires_account_slug_or_id(self):
         self.client.post("/accounts", {'name': 'Test User', 'slug':'test-user'})
         response = self.client.post("/transactions", {'amount':200})
         self.assertEqual(json.loads(response.content), {'account': ['This field is required.']})
-        self.assertEqual(json.loads(response.status_code), 500)
+        self.assertEqual(response.status_code, 400)
         
         response = self.client.post("/transactions", {'account':2, 'amount':200})
         self.assertEqual(json.loads(response.content), {'account': ['2 is not a valid account.']})
-        self.assertEqual(json.loads(response.status_code), 500)
+        self.assertEqual(response.status_code, 400)
         
         response = self.client.post("/transactions", {'account':'test-account2', 'amount':200})
         self.assertEqual(json.loads(response.content), {'account': ['test-account2 is not a valid account.']})
-        self.assertEqual(json.loads(response.status_code), 500)
+        self.assertEqual(response.status_code, 400)
         
 
         

@@ -25,6 +25,14 @@ class TestAccountSerializer(TestCase):
     def test_create_account_returns_account_id(self):
         response = self.client.post("/accounts", {'name': 'Test User', 'slug': 'test-user'})
         self.assertEqual(json.loads(response.content), {'id':1})
+        
+    def test_create_account_requires_name(self):
+        response = self.client.post("/accounts", {'slug': 'test-user'})
+        self.assertEqual(json.loads(response.content), {'name': ['This field is required.']})
+
+    def test_create_account_requires_slug(self):
+        response = self.client.post("/accounts", {'name': 'Test User'})
+        self.assertEqual(json.loads(response.content), {'slug': ['This field is required.']})
 
     def test_get_account_returns_custom_fields(self):
         self.client.post("/accounts", {'name': 'Test User', 'slug': 'test-user'})

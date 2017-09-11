@@ -22,7 +22,7 @@ class TransactionManager(models.Manager):
             kwargs['journal_id'] = Account.objects.get(id=kwargs['account_id']).journal.id 
         
         if 'account_id' not in kwargs:
-            kwargs['account_id'] = Journal.objects.get(id=kwargs['journal_id']).account.i
+            kwargs['account_id'] = Journal.objects.get(id=kwargs['journal_id']).account.id
         
         with django.db.transaction.atomic():
             transaction = self.model(**kwargs)
